@@ -12,8 +12,8 @@ export const withCounter = (OriginalComponent)=>{
             this.handleClick = this.handleClick.bind(this);
         }
     
-        handleClick (){
-      
+        handleClick (av){
+            console.log(av);
             this.setState(prevState=>({
                 counter:prevState.counter + 1
             }))

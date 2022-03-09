@@ -7,7 +7,7 @@ class ClickCounter extends Component{
             <div>
                 <button
                     type="button"
-                    onClick={handleClick}
+                    onClick={()=>handleClick(30)}
                 >
                     Clicked {counter} times
                 </button>
