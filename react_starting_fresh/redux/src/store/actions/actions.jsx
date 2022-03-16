@@ -21,7 +21,12 @@ export const fetchUserError = (error)=>{
         payload:error
     }
 }
-
+export const setSearchText = value =>{
+    return{
+        type:ACTION_TYPES.SET_SEARCH_TXT,
+        payload:value
+    }
+}
 export const fetchUsers = () =>{
     console.log("Hello from fetch");
     return function(dispatch){    //return function doesnot have to be pure and

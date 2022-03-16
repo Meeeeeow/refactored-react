@@ -1,0 +1,13 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width:100%;
+    color:white;
+    padding: 1.2rem 1.5rem;
+    background-color: rgb(24, 49, 161);
+}
+.banner{
+    margin:auto;
+
+}

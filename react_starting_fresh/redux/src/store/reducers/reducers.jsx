@@ -4,7 +4,8 @@ import * as ACTION_TYPES from '../actions/action_types';
 const initialState={
     isLoading:false,
     users:[],
-    error:''
+    error:'',
+    searchField:''
 }
 export const rootReducer =(state=initialState,action)=>{
     switch(action.type){
@@ -27,6 +28,11 @@ export const rootReducer =(state=initialState,action)=>{
                 users:[],
                 error:action.payload
             }
+            case ACTION_TYPES.SET_SEARCH_TXT:
+                return{
+                    ...state,
+                    searchField:action.payload
+                }
         default:
             return state; 
     }
