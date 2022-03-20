@@ -15,6 +15,9 @@ class App extends Component{
     return(
       <div>
         <Products data ={this.state.users}/>
+        <h1 className="text-3xl font-bold underline">
+      Hello world!
+    </h1>
       </div>
     )
   }
