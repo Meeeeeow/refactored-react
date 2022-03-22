@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Header from "../header/header";
+import '../header/header.css';
 import './modalSingle.css';
 export const ModalSingleUser = () => {
   const [user,setUser]  = useState({});
@@ -17,6 +19,7 @@ export const ModalSingleUser = () => {
   },[id]);
   return (
     <div className="container">
+        <Header/>
         <h1>Full Details of User {id}</h1>
         {
             loading ? (<h2>Loading...</h2>)

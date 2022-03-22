@@ -25,7 +25,7 @@ function Modal({show,data,onHide}) {
                   </div>
                   <button type="button" onClick={onHide} className="modal-btn show">
                        <Link 
-                       to={`https://jsonplaceholder.typicode.com/users/${data.id}`}
+                       to={`/${data.id}`}
                        className="modal-link">
                            Show more 
                        </Link>

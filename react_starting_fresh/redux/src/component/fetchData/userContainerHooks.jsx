@@ -6,24 +6,42 @@ import Header from '../header/header';
 import UserList from '../userList/userList';
 import Footer from '../footer/footer';
 function UserContainerHooks() {
-  const {isLoading,users,error,searchField} = useSelector((state)=>state);
   useEffect(()=>{
     store.dispatch(fetchUsers());
   },[])
+  const {isLoading,users,error,searchField} = useSelector((state)=>state);
+  const [delState,setDelState] = React.useState(false);
+ 
 
-  const filteredUsers = users.filter(user=>(
+  console.log(users);
+  let [delUsers,setDelUsers] = React.useState(users); 
+  console.log(delUsers);
+  var filteredUsers = users.filter(user=>(
     user.name.toLowerCase().includes(searchField.toLowerCase())
   ))
-  console.log(filteredUsers);
+
+  var filteredDeletedUsers=[];
+
+  const handleDelete = id =>{
+    console.log(id);
+    filteredDeletedUsers = delUsers.filter(user=> id !== user.id)
+    setDelState(true);
+    setDelUsers(filteredDeletedUsers);
+
+  }
+  useEffect(()=> {
+    setDelUsers(filteredUsers)
+  },[searchField])
+
   return (
     <div>
-        
+        <h1>{filteredUsers.length}</h1>
         <Header/>
         {
             isLoading ? <h1>Loading...</h1>
             : error ? <h3>{error}</h3>
             : <div>
-                <UserList allUsers = {filteredUsers}/>
+                <UserList allUsers = {delUsers} onDel={handleDelete}/>
             </div>
         }
         <Footer/>

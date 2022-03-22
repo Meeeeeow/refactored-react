@@ -1,7 +1,7 @@
 import React from 'react';
 import './singleUser.css';
 import Modal from '../modal/modal';
-function SingleUser({user}) {
+function SingleUser({user,onDelete}) {
   const [showModal,setShowModal] =React.useState(false);
   const openModal = () =>{
     
@@ -10,6 +10,10 @@ function SingleUser({user}) {
   }
   const hideModal = () =>{
     setShowModal(false);
+  }
+
+  const handleDelete = (id) =>{
+      onDelete(id);
   }
   return (
     <>
@@ -22,6 +26,12 @@ function SingleUser({user}) {
           className="btn"
           onClick={openModal}>
             View Details
+        </button>
+        <button 
+          type="button"
+          className="btn"
+          onClick={() => handleDelete(user.id)}>
+            Delete User
         </button>
         
     </div>

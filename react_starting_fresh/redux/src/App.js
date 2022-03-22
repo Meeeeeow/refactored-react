@@ -12,7 +12,7 @@ function App() {
       <Routes>
           <Route path='/' element ={<UserContainerHooks/>}/>
           <Route 
-          path='https://jsonplaceholder.typicode.com/users/:id' 
+          path=':id' 
           element ={<ModalSingleUser/>}/>
         </Routes>
      {/* <UserContainerHooks/> */}
