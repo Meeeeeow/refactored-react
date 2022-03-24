@@ -1,50 +1,56 @@
 import React , { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { fetchUsers } from '../../store/actions/actions';
+import {  fetchUsers } from '../../store/actions/actions';
 import { store } from '../../store';
 import Header from '../header/header';
 import UserList from '../userList/userList';
 import Footer from '../footer/footer';
 function UserContainerHooks() {
+  const [usersAll , setUsersAll]  = React.useState([]);
   useEffect(()=>{
     store.dispatch(fetchUsers());
   },[])
   const {isLoading,users,error,searchField} = useSelector((state)=>state);
-  const [delState,setDelState] = React.useState(false);
- 
 
-  console.log(users);
-  let [delUsers,setDelUsers] = React.useState(users); 
-  console.log(delUsers);
-  var filteredUsers = users.filter(user=>(
+  useEffect(()=>{
+   setUsersAll(users);
+   setDelUsers(users);
+  },[users])
+ 
+// console.log(usersAll);
+//   console.log(users);
+  const [delUsers,setDelUsers] = React.useState(usersAll);
+  const filteredUsers = usersAll.filter(user=>(
     user.name.toLowerCase().includes(searchField.toLowerCase())
   ))
-
   var filteredDeletedUsers=[];
-
   const handleDelete = id =>{
     console.log(id);
-    filteredDeletedUsers = delUsers.filter(user=> id !== user.id)
-    setDelState(true);
+    filteredDeletedUsers = usersAll.filter(user => user.id !== id);
+    console.log(users);
+    setUsersAll(filteredDeletedUsers);
     setDelUsers(filteredDeletedUsers);
-
   }
   useEffect(()=> {
-    setDelUsers(filteredUsers)
+    setUsersAll(filteredUsers)
+    if(searchField === "")
+        {setUsersAll(delUsers); console.log(usersAll)}
   },[searchField])
-
   return (
     <div>
-        <h1>{filteredUsers.length}</h1>
+       { usersAll.length > 0 && (<>
         <Header/>
         {
             isLoading ? <h1>Loading...</h1>
             : error ? <h3>{error}</h3>
             : <div>
-                <UserList allUsers = {delUsers} onDel={handleDelete}/>
+                <UserList allUsers = {usersAll} onDel={handleDelete}/>
             </div>
         }
         <Footer/>
+       </>)
+      }
+      
     </div>
   )
 }
