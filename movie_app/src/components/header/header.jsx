@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useEffect} from 'react'
 import { Link } from 'react-router-dom';
 import user from '../../images/user.png';
 import { useDispatch } from 'react-redux';
@@ -9,12 +9,20 @@ export const Header = () => {
   const dispatch = useDispatch();
   const handleChange=(e) =>{
       setSearchText(e.target.value);
-      dispatch(fetchAsyncMovies(searchText));
-      dispatch(fetchAsyncSeries(searchText));
+     
   }
+
+  useEffect(()=>{
+    const text = localStorage.getItem("searchedItem");
+    console.log(text);
+    console.log("Hello");
+    setSearchText(text)
+  },[])
   const handleSubmit = (e) =>{
       e.preventDefault();
-
+      dispatch(fetchAsyncMovies(searchText));
+      dispatch(fetchAsyncSeries(searchText));
+      localStorage.setItem("searchedItem",searchText);
   }
   return (
     <div className='header'>
@@ -29,7 +37,7 @@ export const Header = () => {
               onChange={handleChange}
            />
            <button type="submit">
-             <i className='fa fa-search'>Search</i>
+             <i className='fa fa-search'></i>
            </button>
          </form>
        </div>
