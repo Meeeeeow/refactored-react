@@ -6,7 +6,7 @@ function Header() {
   return (
     <div className='header'>
         <nav>
-            <NavLink to='/'>Users</NavLink>
+            <NavLink to='/users'>Users</NavLink>
         </nav>
         <h1 className='banner'>Monsters Rolodex</h1>
         <SearchBox placeholder="Enter a name"/>

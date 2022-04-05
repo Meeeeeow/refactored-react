@@ -25,7 +25,7 @@ function Modal({show,data,onHide}) {
                   </div>
                   <button type="button" onClick={onHide} className="modal-btn show">
                        <Link 
-                       to={`/${data.id}`}
+                       to={`/users/${data.id}`}
                        className="modal-link">
                            Show more 
                        </Link>

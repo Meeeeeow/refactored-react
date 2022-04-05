@@ -2,9 +2,10 @@ import React , { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {  fetchUsers } from '../../store/actions/actions';
 import { store } from '../../store';
-import Header from '../header/header';
+
 import UserList from '../userList/userList';
 import Footer from '../footer/footer';
+
 function UserContainerHooks() {
   const [usersAll , setUsersAll]  = React.useState([]);
   useEffect(()=>{
@@ -39,7 +40,6 @@ function UserContainerHooks() {
   return (
     <div>
        { usersAll.length > 0 && (<>
-        <Header/>
         {
             isLoading ? <h1>Loading...</h1>
             : error ? <h3>{error}</h3>
@@ -50,7 +50,7 @@ function UserContainerHooks() {
         <Footer/>
        </>)
       }
-      
+
     </div>
   )
 }
