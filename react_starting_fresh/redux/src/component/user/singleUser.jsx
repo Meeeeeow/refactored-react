@@ -2,6 +2,7 @@ import React from 'react';
 import './singleUser.css';
 import Modal from '../modal/modal';
 import { Link } from 'react-router-dom';
+import { UpdateUser } from '../update/updateUser';
 function SingleUser({user,onDelete}) {
   const [showModal,setShowModal] =React.useState(false);
   const openModal = () =>{
@@ -49,6 +50,7 @@ function SingleUser({user,onDelete}) {
         data ={user}
         onHide ={hideModal}
     />
+    <UpdateUser abc={10}/>
     </>
   )
 }
