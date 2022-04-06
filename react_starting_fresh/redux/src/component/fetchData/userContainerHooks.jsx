@@ -8,27 +8,53 @@ import Footer from '../footer/footer';
 
 function UserContainerHooks() {
   const [usersAll , setUsersAll]  = React.useState([]);
+  const [storedUser,setStoredUser] = React.useState(JSON.parse(localStorage.getItem("Users")));
   useEffect(()=>{
     store.dispatch(fetchUsers());
+    // console.log(JSON.parse(localStorage.getItem("Users")));
+    
   },[])
   const {isLoading,users,error,searchField} = useSelector((state)=>state);
 
   useEffect(()=>{
-   setUsersAll(users);
-   setDelUsers(users);
+   if(storedUser && Object.keys(storedUser).length !== 0)
+   {
+    var userBefore = users.filter(user=>user.id !== storedUser.id);
+    console.log(userBefore);
+    userBefore.push(storedUser);
+    console.log(userBefore);
+    setUsersAll(userBefore);
+    setDelUsers(userBefore);
+    
+   }else{
+    setUsersAll(users);
+    setDelUsers(users);
+   }
   },[users])
+  // console.log(usersAll);
  
+  // console.log(usersAll);
 // console.log(usersAll);
 //   console.log(users);
+  
+  // console.log(storedUser);
   const [delUsers,setDelUsers] = React.useState(usersAll);
   const filteredUsers = usersAll.filter(user=>(
     user.name.toLowerCase().includes(searchField.toLowerCase())
   ))
   var filteredDeletedUsers=[];
+  
   const handleDelete = id =>{
     console.log(id);
+    if(id === storedUser.id)
+    {
+      localStorage.setItem("Users",JSON.stringify({}));
+    }
+
     filteredDeletedUsers = usersAll.filter(user => user.id !== id);
-    console.log(users);
+   
+    // console.log(users);
+
     setUsersAll(filteredDeletedUsers);
     setDelUsers(filteredDeletedUsers);
   }
