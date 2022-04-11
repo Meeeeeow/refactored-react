@@ -46,10 +46,14 @@ function UserContainerHooks() {
   
   const handleDelete = id =>{
     console.log(id);
+   if(storedUser)
+   {
+    console.log('I am from loop');
     if(id === storedUser.id)
     {
       localStorage.setItem("Users",JSON.stringify({}));
     }
+   }
 
     filteredDeletedUsers = usersAll.filter(user => user.id !== id);
    
