@@ -1,15 +1,18 @@
 import React,{useRef , useState , useEffect }from "react";
-import { Link } from "react-router-dom";
+import { Link ,Navigate } from "react-router-dom";
 import { faCheck , faTimes , faInfoCircle } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './signin.css';
+
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 
-
-const Signin = () => {
+toast.configure();
+const Signin = ({setAuth}) => {
   //useRef
   const userRef = useRef();
   const errRef = useRef();
@@ -54,7 +57,30 @@ const Signin = () => {
   useEffect(()=>{
       setErrMsg('');
   },[user,pwd])
-
+  
+  const getDataFromLocal = (data) =>{
+      const userData = JSON.parse(localStorage.getItem('registeredUser'));
+      let found = false;
+      userData.some(user =>(
+        user.user === data.user && user.pwd === data.pwd ? found = true : ''
+      ))
+      if(found)
+      {
+          setAuth(true);
+          localStorage.setItem('Auth',JSON.stringify(true));
+          toast.success('User login successful',{position:toast.POSITION.TOP_CENTER});
+            setSuccess(true);
+      }else{
+          toast.warning('Wrong Credentials!');
+          userData.some(user=>{
+              if(user.user !== data.user)
+                setValidName(false)
+              else if(user.pwd !== data.pwd)
+                setValidPwd(false); 
+            return '';      
+          })
+      }
+  }
   const handleSubmit = e =>{
       e.preventDefault();
       const v1 = USER_REGEX.test(user);
@@ -65,20 +91,20 @@ const Signin = () => {
           return;
       }
       console.log(user,pwd);
-      setSuccess(true);
+      
+      getDataFromLocal({user:user,pwd:pwd})
   }
   return (
     <div className="container">
         {
             success ? (
               <section>
-                    <h1>You are logged in!</h1>
-                   <Link to="/users">Users</Link>
+                    <Navigate replace to="/users"/>)
               </section>
             ) :(
                 <section>
             <p ref={errRef} className={errMsg ? 'err-msg' : 'off-screen'}>{errMsg}</p>
-            <h1>Register</h1>
+            <h1>Login</h1>
 
              <form onSubmit={handleSubmit}>
                  <label htmlFor="username">
@@ -144,7 +170,7 @@ const Signin = () => {
                     <button disabled={!validName || !validPwd ? true : false}>Sign In</button>
              </form>
                 <p>
-                    Need an account<br/>
+                    Need an account?<br/>
                     <span className='line'>
                         <Link to="/signup">Signup</Link>
                     </span>

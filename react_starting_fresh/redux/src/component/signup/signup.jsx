@@ -2,6 +2,8 @@ import React,{useRef , useState , useEffect }from "react";
 import { Link , Navigate } from "react-router-dom";
 import { faCheck , faTimes , faInfoCircle } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './signup.css';
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
@@ -9,7 +11,7 @@ const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 
-
+toast.configure();
 const Signup = () => {
   //useRef
   const userRef = useRef();
@@ -79,6 +81,52 @@ const Signup = () => {
       setErrMsg('');
   },[user,email,pwd,matchPwd])
   
+  const saveDataToLocal = (data) =>{
+      let oldData = localStorage.getItem('registeredUser');
+      console.log(oldData);
+      if(oldData === null)
+      {
+          let oldData = [];
+          oldData.push(data);
+          localStorage.setItem('registeredUser',JSON.stringify(oldData));
+          localStorage.setItem('Auth',JSON.stringify(false));
+          setTimeout(()=>{
+            setSuccess(true);
+            setUser('');  
+            setEmail('');
+            setPwd('');
+            setMatchPwd('');
+        },4000)
+          toast.success('Registereds Successfully!',{position:toast.POSITION.TOP_CENTER});
+      }else{
+          console.log('Hello from arr');
+        let oldArr = JSON.parse(localStorage.getItem('registeredUser'));
+        let found = false;
+        oldArr.some(user=>(
+            user.email === data.email ? found = true : ''  
+        ))
+        console.log(found);
+        if(found)
+        {
+            setIsDisplay(false);
+            setValidEmail(false);
+            toast.warning('User already exists!',{position:toast.POSITION.TOP_CENTER});
+        }else{
+            oldArr.push(data);
+            console.log('Hello from arr');
+            localStorage.setItem('registeredUser',JSON.stringify(oldArr));
+            localStorage.setItem('Auth',JSON.stringify(false));
+            setTimeout(()=>{
+                setSuccess(true);
+                setUser('');  
+                setEmail('');
+                setPwd('');
+                setMatchPwd('');
+            },4000)
+            toast.success('Registered Successfully!',{position:toast.POSITION.TOP_CENTER});
+        }
+      }
+  }
   const handleSubmit = e =>{
       e.preventDefault();
       const v1 = USER_REGEX.test(user);
@@ -90,9 +138,9 @@ const Signup = () => {
       }
       console.log(user,email,pwd);
       setIsDisplay(true);
-      setTimeout(()=>{
-        setSuccess(true);
-      },2000)
+      saveDataToLocal({user:user , email:email,pwd:pwd})
+
+      
   }
   return (
     <div className="container">
@@ -229,7 +277,7 @@ const Signup = () => {
                     <button disabled={!validName || !validPwd || !validMatchPwd ? true : false}>Sign Up</button>
              </form>
                 <p>
-                    Already Registered<br/>
+                    Already Registered?<br/>
                     <span className='line'>
                         <Link to="/signin">
                             Signin
