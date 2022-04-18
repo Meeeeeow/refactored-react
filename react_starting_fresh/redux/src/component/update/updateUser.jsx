@@ -1,10 +1,10 @@
 import React,{ useState,useEffect} from 'react'
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import './updateUser.css';
-
+import { useNavigate } from "react-router-dom";
 
 
 toast.configure();
@@ -18,10 +18,26 @@ export const UpdateUser = () => {
   const [catchPhrase,setCatchPhrase] = useState("");
   const [bs,setBs] = useState("");
   const { id } = useParams();
-  
+  const navigate = useNavigate();
   console.log(id);
+  
+  let user_details = JSON.parse(localStorage.getItem('Users'));
+  
   useEffect(()=>{
- 
+    
+    
+     if(user_details !== null && Object.keys(user_details).length !== 0 &&  user_details.id === Number(id))
+     {
+        console.log(user_details.company);
+        setUser(user_details)
+        setUsername(user_details.username);
+        setEmail(user_details.email);
+        setPhone(user_details.phone);
+        setCompany(user_details.company.name);
+        setCatchPhrase(user_details.company.catchPhrase);
+        setBs(user_details.company.bs);
+        setLoading(false);
+     }else{
       axios.get(`https://jsonplaceholder.typicode.com/users/${id}`)
       .then(response=>{
           console.log(response.data.phone);
@@ -34,6 +50,7 @@ export const UpdateUser = () => {
           setBs(response.data.company.bs);
       })
       .finally(()=>setLoading(false))
+     }
       
       
 },[id]);
@@ -83,6 +100,9 @@ const handleSubmit =(e) =>{
     .then((json) => console.log(json));
     localStorage.setItem("Users", JSON.stringify(user));
     toast.success('Successfully  Updated!',{position:toast.POSITION.TOP_CENTER  , autoClose:false})
+    setTimeout(()=>{
+      navigate('/users');
+    },2000)
   }else{
     toast.warn('Please fill up the fields to update',{position:toast.POSITION.TOP_CENTER});
     

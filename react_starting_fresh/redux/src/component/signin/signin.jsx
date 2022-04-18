@@ -1,9 +1,10 @@
 import React,{useRef , useState , useEffect }from "react";
-import { Link ,Navigate } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
 import { faCheck , faTimes , faInfoCircle } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { GiAnubis } from "react-icons/gi";
 import './signin.css';
 
 
@@ -30,7 +31,8 @@ const Signin = ({setAuth}) => {
   //error and success
   const [errMsg,setErrMsg] = useState('');
   const [success,setSuccess] = useState(false);
-
+  
+  const naivgate = useNavigate();
   //useEffects
   useEffect(()=>{
       userRef.current.focus();
@@ -70,6 +72,10 @@ const Signin = ({setAuth}) => {
           localStorage.setItem('Auth',JSON.stringify(true));
           toast.success('User login successful',{position:toast.POSITION.TOP_CENTER});
             setSuccess(true);
+            localStorage.setItem('UserName',data.user[0].toUpperCase() + data.user.slice(1) );
+            setTimeout(()=>{
+                naivgate('/users');
+            },2000)
       }else{
           toast.warning('Wrong Credentials!');
           userData.some(user=>{
@@ -95,17 +101,20 @@ const Signin = ({setAuth}) => {
       getDataFromLocal({user:user,pwd:pwd})
   }
   return (
-    <div className="container">
+   <>
+     <div className="outer-part">
+        <GiAnubis color='red' size='5rem'/>
+        <h1>Sign in to MR</h1>
+     </div>
+     <div className="containers">
         {
             success ? (
               <section>
-                    <Navigate replace to="/users"/>)
+                   <h1>Loading...</h1>
               </section>
             ) :(
                 <section>
             <p ref={errRef} className={errMsg ? 'err-msg' : 'off-screen'}>{errMsg}</p>
-            <h1>Login</h1>
-
              <form onSubmit={handleSubmit}>
                  <label htmlFor="username">
                      UserName
@@ -179,6 +188,7 @@ const Signin = ({setAuth}) => {
             )
         }
     </div>
+   </>
   )
 }
 

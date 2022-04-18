@@ -10,7 +10,7 @@
     background-color: rgba(0,0,0,0.6);
     color:white;
     padding:40px;
-    width:750px;
+    width:700px;
     height:900px;
 }
 .info p input{
@@ -28,16 +28,16 @@
     background-color: grey;
 }
 .submit{
+    margin-top:50px;
     display:block;
     width:100%;
-    padding:16px 0px;
+    padding:15px 0px;
     font-size:1.1rem;
     background-color: rgb(11, 83, 218);
     color:white;
     border:none;
     outline: none;
     cursor:pointer;
-    margin-top: 30px;
 }
 .submit:hover{
     background-color: rgb(60, 196, 60);
