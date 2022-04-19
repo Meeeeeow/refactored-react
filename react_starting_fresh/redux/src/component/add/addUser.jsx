@@ -31,25 +31,30 @@ const AddUser = () => {
     const handleSubmit =  (e) =>{
         let found = false;
         e.preventDefault();
-        console.log(userId,name,username,email,web,street,suite,city,zip,contact,company,catchPhrase,bs);
+        console.log(file,userId,name,username,email,web,street,suite,city,zip,contact,company,catchPhrase,bs);
         const newUser = {
-            userId:userId,
+            id:userId,
             name:name,
             username:username,
             email:email,
-            file: file.name,
-            web:web,
-            street:street,
-            suite:suite,
-            city:city,
-            zip:zip,
-            contact:contact,
-            company:company,
-            catchPhrase:catchPhrase,
-            bs:bs
+            address:{
+                street:street,
+                suite:suite,
+                city:city,
+                zipcode:zip
+            },
+            imgfile: file,
+            website:web,
+            
+            phone:contact,
+            company:{
+                name:company,
+                catchPhrase:catchPhrase,
+                bs:bs
+            }
         }
         console.log(typeof(newUsers));
-        console.log(file.name);
+        console.log(file);
         newUsers.some(user=> user.email === newUser.email ?  found = true : '');
         if(found)
         {
@@ -62,6 +67,23 @@ const AddUser = () => {
             localStorage.setItem('id',userId + 1);
         }
     }
+    const getBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = (error) => reject(error);
+          reader.readAsDataURL(file);
+        });
+      };
+      
+    const imageUpload = (e) => {
+        const file = e.target.files[0];
+        getBase64(file).then((base64) => {
+          console.log(base64);
+          setFile(base64);
+        });
+    };
+    console.log(file);
     return (
     <div className='body-form'>
      <form className='user-form' onSubmit={handleSubmit}>
@@ -104,7 +126,7 @@ const AddUser = () => {
                     id="userimage"
                     className='userimage'
                     required
-                    onChange={(e)=> setFile(e.target.files[0])}
+                    onChange={(e)=> imageUpload(e)}
                 />
             </div>
             <div className="blocks">
