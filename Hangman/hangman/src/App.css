@@ -1,0 +1,16 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+
+.btn:hover{
+  transform: scale(1.2);
+}
+.btn:disabled{
+  transform: none;
+  border: 1px solid #999999;
+
+  color: #666666;
+
+}
