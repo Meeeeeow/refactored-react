@@ -10,8 +10,8 @@ const Menudirectory = () => {
   return (
     <div className='directory-menu'>
         {
-            shopData.map((item,index)=>(
-                <MenuItem key={item.id} title={item.title} image = {item.imageUrl} size={item.size}/>
+            shopData.map(({id , ...otherSections})=>(
+                <MenuItem key={id} {...otherSections}/>
             ))
         }
     </div>
