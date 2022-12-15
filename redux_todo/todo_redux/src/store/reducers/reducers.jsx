@@ -1,7 +1,7 @@
 import * as ACTION_TYPES from '../actions/action_types';
 
 const initialState = {
-    tasks: []
+    tasks: {}
 }
 
 export const rootRedcuer = (state = initialState, action) => {
@@ -9,7 +9,10 @@ export const rootRedcuer = (state = initialState, action) => {
         case ACTION_TYPES.ADD_TASK:
             return{
                 ...state,
-                tasks: [...state.tasks, action.payload]
+                tasks:{
+                    ...state.tasks,
+                    [action.payload.id.toString()]: action.payload
+                }
             }
         default:
             return state;
