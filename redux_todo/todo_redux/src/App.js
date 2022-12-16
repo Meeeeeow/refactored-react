@@ -8,9 +8,9 @@ function App() {
   const [task,setTask] = useState('');
   
   const dispatch = useDispatch();
-  const task_state = useSelector(state => state);
+  const task_state = useSelector(state => state);   //get redux state
   //console.log(task_state.tasks.map(task => !task.isDone  && !task.isProgressed  ? task.id : ''));
-  console.log(task_state.tasks);
+  // console.log(task_state.tasks);
  let initialData = useMemo(()=>{
   return {
     tasks: task_state.tasks,
@@ -39,23 +39,26 @@ function App() {
     },
     columnOrder: ['column-1','column-2','column-3'],
   }
-},[task_state.tasks]) 
+},[task_state.tasks])   //initial task state gets updated after a task is added
   
-  console.log(initialData.tasks);
-  const [initialState,setInitialState] = useState(initialData);
+  // console.log(initialData.tasks);
+  let taskStorage = localStorage.getItem("taskList");
+  const [initialState,setInitialState] = useState(initialData); //local state 
   useEffect(()=>{
     setInitialState(initialData);
-  },[initialData])
-  console.log(initialState.tasks);
-  console.log(initialState.columns['column-1'].taskIds);
-  const handleAddTask =(e) =>{
+  },[initialData])   //after every inital task update state gets updated
+  
+  useEffect(()=>{
+    localStorage.setItem('taskList', JSON.stringify(initialState))
+  },[initialState]) //after local state gets updated svae them in storage
+  // console.log(initialState.tasks);
+  // console.log(initialState.columns['column-1'].taskIds);
+  const handleAddTask =(e) =>{   //add task
     if(task !== '')
     {
       dispatch({type:'ADD_TASK' , payload: {
         item: task,
         id: Date.now(),
-        isDone: false,
-        isProgressed: false
       }});
     }else{
       alert('Enter a valid task');
@@ -66,7 +69,7 @@ function App() {
   const onDragEnd = result =>{
       const {destination, source, draggableId} = result;
 
-      if(!destination){
+      if(!destination){  
         return;
       }
       if(destination.droppableId === source.droppableId && destination.index === source.index){
@@ -75,9 +78,9 @@ function App() {
 
       const start = initialState.columns[source.droppableId];
       const end = initialState.columns[destination.droppableId];
-      if(start === end){
+      if(start === end){   // if  the destination and the source is same column
           const newTaskIds = Array.from(start.taskIds);
-          console.log(newTaskIds);
+          
           newTaskIds.splice(source.index, 1);
           newTaskIds.splice(destination.index, 0, draggableId);
     
@@ -96,21 +99,23 @@ function App() {
           setInitialState(newState);
           return;
       }
-
+      // if the destination and source columns are different
       const startTaskIds = Array.from(start.taskIds);
       startTaskIds.splice(source.index,1);
       const newStart ={
         ...start,
         taskIds: startTaskIds,
       }
-      console.log(newStart);
+
       const endTaskIds = Array.from(end.taskIds);
+      console.log(endTaskIds);
       endTaskIds.splice(destination.index, 0, draggableId);
+      console.log(endTaskIds);
       const newEnd ={
        ...end, 
        taskIds: endTaskIds,
       };
-    
+      console.log(newEnd);
       const newState ={
              ...initialState,
               columns:{
@@ -119,13 +124,15 @@ function App() {
                 [newEnd.id]: newEnd,
               },
       };
-      setInitialState(newState);
+      console.log(newState);
+      setInitialState(newState); //state changed
       
   }
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="App">
         <div className='flex justify-center items-center mt-9 text-black'>
+          {/* input  value */}
           <input
             className='border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-md font-bold focus:outline-none' 
             type='text' 
@@ -146,7 +153,6 @@ function App() {
                 const tasks = column.taskIds.map((taskId)=>
                     !initialState.tasks[taskId].isDone && !initialState.tasks[taskId].isProgressed ? initialState.tasks[taskId] : ''
                 )
-                console.log(tasks);
                 return <Column 
                           key={column.id} 
                           column={column} 
@@ -156,6 +162,7 @@ function App() {
           }
         </div> 
       </div>
+      <h2 className='text-3xl font-bold flex justify-center'>Implementation missing of localStorage.Tried but not successful</h2>
     </DragDropContext>
   );
 }

@@ -3,7 +3,7 @@ import Task from './task';
 import {Droppable} from  'react-beautiful-dnd'
 
 const Column = ({column,tasks}) => {
-  console.log(column.id);  
+//   console.log(column.id);  
   
   return (
     
