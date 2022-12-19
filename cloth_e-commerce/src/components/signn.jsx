@@ -44,8 +44,10 @@ const Signin = () => {
               required
               onChange={(e)=> setPassword(e.target.value)}
             />
-            <CustomButton type="submit"> Sign in</CustomButton>
-            <CustomButton onClick={signInWithGoogle}> Sign in with Google</CustomButton>
+            <div className='buttons'>
+              <CustomButton type="submit"> Sign in</CustomButton>
+              <CustomButton onClick={signInWithGoogle} isGoogleSignedin> Sign in with Google</CustomButton>
+            </div>
         </form>
 
     </div>
