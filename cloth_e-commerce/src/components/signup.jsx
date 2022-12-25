@@ -10,41 +10,97 @@ const Signup = () => {
     password: '',
     passwordConfirm: ''
   });  
+  const [checkPassword,setCheckPassword] = useState(false);
   const {displayName, email, password,passwordConfirm} = newUser;
-  const handleChange =(e)=>{
+  const atLeastOneCapitalChar =  /[A-Z]/g;
+  const atLeastOneSmallChar = /[a-z]/g;
+  const atLeastOneNum = /[0-9]/g;
+  const atLeastOneSpecialChar = /[#?!@$%^&*-]/g;
+  const eightCharsorMore = /.{8,}/g; 
+  const handleChange =  (e)=>{
     const {name,value} = e.target;
     setNewUser({
         ...newUser,
         [name]: value
     })
   }
+  
+  
   const nameCheck = (name)=>{
     var regex = /^[a-zA-Z ]+$/;
     return regex.test(name);
   }
   const emailCheck = (email)=>{
-    var regex =  /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+    var regex =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z]+(?:\.[a-zA-Z]{2,3})*$/;
     return regex.test(email);
   }
-  const passwordCheck = (password)=>{
-    var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
-    return regex.test(password);
+
+  const passwordTracker = {
+    upperCaseCheck: password.match(atLeastOneCapitalChar),
+    lowerCaseCheck: password.match(atLeastOneSmallChar),
+    specialCharsCheck: password.match(atLeastOneSpecialChar),
+    numCheck: password.match(atLeastOneNum),
+    eightorMoreCheck: password.match(eightCharsorMore)
   }
+  // console.log(passwordTracker)
+  const passWordLength = Object.values(passwordTracker).filter(value => value).length;
+  // console.log(passWordLength);
+  // const passwordCheck = (password)=>{
+  //   var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+  //   return regex.test(password);
+  // }
   const handleSubmit = async(e) =>{
     e.preventDefault();
     const { displayName, email, password, passwordConfirm } = newUser;
-    const errors=[];
-    if(nameCheck(displayName) && emailCheck(email) && passwordCheck(password)){
-        
+    // const errors=[];
+    // console.log(password === passwordConfirm)
+    if(nameCheck(displayName) && emailCheck(email)){
+        if(password === passwordConfirm)
+        {
+          try{
+             const {user} = await auth.createUserWithEmailAndPassword(email,password);
+             await createUserProfile(user, {displayName});
+
+             setNewUser({
+              displayName:'',
+              email:'',
+              password:'',
+              passwordConfirm:''
+             })
+          }catch(error)
+          {
+            if(error.message  === 'Firebase: The email address is already in use by another account. (auth/email-already-in-use).')
+            {
+              alert("Email already in use");
+              return;
+            }else{
+              console.log(error.message);
+            }
+          }
+        }else{
+          alert('Passwords donot match');
+          return;
+        }
     }else{
-        
+       if(!nameCheck(displayName))
+       {
+        alert('Please enter a valid name with no numbers');
+        return;
+       }
+       if(!emailCheck(email))
+       {
+        alert('Please enter a valid email address');
+        return;
+       }
+       
+
     }
   
   }
   return (
     
     <div className='sign-up'>
-        <h2 className='title'>I donot have an account</h2>
+        <h1 className='title'>I donot have an account</h1>
         <span>Sign up with email and password</span>
         <form onSubmit={handleSubmit}>
             <FormInput
@@ -68,9 +124,22 @@ const Signup = () => {
                name="password"
                value={password}
                label = "Password"
+               onFocus ={()=> setCheckPassword(true)}
                onChange={handleChange}
                required
             />
+            {
+              checkPassword && (
+                <div>
+                    {passWordLength < 5 && 'Must contain '}
+                    {!passwordTracker.upperCaseCheck && 'one uppercase alphabet, '}
+                    {!passwordTracker.lowerCaseCheck && 'one lowercase alphabet, '}
+                    {!passwordTracker.numCheck && 'one number, '}
+                    {!passwordTracker.specialCharsCheck && 'one special character, '}
+                    {!passwordTracker.eightorMoreCheck && 'eight characters or more '}
+                </div>
+              )
+            }
             <FormInput
                type="password"
                name="passwordConfirm"
@@ -79,7 +148,11 @@ const Signup = () => {
                onChange={handleChange}
                required
             />
-            <CustomButton type="submit">Sign Up</CustomButton>
+            {
+              passWordLength >= 5 ? (
+                  <CustomButton type="submit" >Sign Up</CustomButton>
+              ) : <CustomButton type="button" style={{cursor: 'not-allowed', backgroundColor: 'grey'} }>Waiting for credentials...</CustomButton>
+            }
         </form>
     </div>
   )
