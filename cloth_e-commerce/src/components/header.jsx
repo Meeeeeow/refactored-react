@@ -3,8 +3,10 @@ import '../styles/header.styles.scss';
 import {ReactComponent as Logo} from '../assets/crown.svg';
 import {Link, NavLink} from 'react-router-dom';
 import { auth } from '../firebase/firebase.utils';
-const Header = ({currentUser}) => {
+import { connect, useSelector } from 'react-redux'; 
+const Header = () => {
   //console.log( currentUser ? currentUser.displayName : '')
+  const currentUser = useSelector((state) => state.user.currentUser);
   return (
     <div className='header'>
         <div className='logo-container'>
@@ -25,4 +27,9 @@ const Header = ({currentUser}) => {
   )
 }
 
-export default Header
+const mapStatetoProps = state =>{
+  return{
+    currentUser : state.user.currentUser
+  }
+}
+export default connect(mapStatetoProps)(Header)

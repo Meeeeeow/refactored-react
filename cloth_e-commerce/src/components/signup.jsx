@@ -125,6 +125,7 @@ const Signup = () => {
                value={password}
                label = "Password"
                onFocus ={()=> setCheckPassword(true)}
+               onBlur ={() => setCheckPassword(false)}
                onChange={handleChange}
                required
             />
@@ -150,8 +151,8 @@ const Signup = () => {
             />
             {
               passWordLength >= 5 ? (
-                  <CustomButton type="submit" >Sign Up</CustomButton>
-              ) : <CustomButton type="button" style={{cursor: 'not-allowed', backgroundColor: 'grey'} }>Waiting for credentials...</CustomButton>
+                  <CustomButton type="submit" style={{width:'100%'}}>Sign Up</CustomButton>
+              ) : <CustomButton type="button" style={{cursor: 'not-allowed', backgroundColor: 'grey', width:'100%'} }>Waiting for credentials...</CustomButton>
             }
         </form>
     </div>
