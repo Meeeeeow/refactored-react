@@ -1,17 +1,18 @@
 
 import './App.css';
 import Homepage from './components/homepage';
-import { Route , Routes } from 'react-router-dom';
+import { Route , Routes, Navigate } from 'react-router-dom';
 import ShopPage from './components/shoppage';
 import Header from './components/header';
 import SigninSignup from './components/signin_signup';
-import { connect ,useDispatch } from 'react-redux';
+import { connect ,useDispatch, useSelector } from 'react-redux';
 import { create_user } from './store/actions/action';
 import {auth, createUserProfile} from './firebase/firebase.utils'
 import { useEffect } from 'react';
 
 function App() {
   // const [user, setUser] = useState(null);
+  const currentUser =  useSelector(({user}) => user.currentUser);
   const dispatch = useDispatch();
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged( async(userAuth) => {
@@ -43,7 +44,7 @@ function App() {
       <Routes>
         <Route path='/' element= {<Homepage/>}/>
         <Route path='shop' element= {<ShopPage/>}/>
-        <Route path='signin' element={<SigninSignup/>}/>
+        <Route path='signin' element={currentUser ?(<Navigate replace to= "/" />) :  (<SigninSignup/>)}/>
       </Routes>
     </div>
   );

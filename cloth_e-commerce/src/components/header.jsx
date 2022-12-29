@@ -4,6 +4,7 @@ import {ReactComponent as Logo} from '../assets/crown.svg';
 import {Link, NavLink} from 'react-router-dom';
 import { auth } from '../firebase/firebase.utils';
 import { connect, useSelector } from 'react-redux'; 
+import CartIcon from './cart-icon';
 const Header = () => {
   //console.log( currentUser ? currentUser.displayName : '')
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -22,14 +23,21 @@ const Header = () => {
               currentUser ? <div className='option' onClick={()=> auth.signOut()}>SIGN OUT</div> :
                 <NavLink className='option' to='signin'>SIGN IN</NavLink>
             }
+            <CartIcon/>
         </div>
     </div>
   )
 }
 
-const mapStatetoProps = state =>{
-  return{
-    currentUser : state.user.currentUser
-  }
-}
-export default connect(mapStatetoProps)(Header)
+// const mapStatetoProps = state =>{
+//   return{
+//     currentUser : state.user.currentUser
+//   }
+// }
+// const mapStatetoProps = {user} =>{
+//   return{
+//     currentUser : user.currentUser
+//   }
+// }
+// export default connect(mapStatetoProps)(Header)
+export default Header;
