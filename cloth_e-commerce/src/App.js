@@ -9,6 +9,7 @@ import { connect ,useDispatch, useSelector } from 'react-redux';
 import { create_user } from './store/actions/action';
 import {auth, createUserProfile} from './firebase/firebase.utils'
 import { useEffect } from 'react';
+import Checkout from './components/checkout';
 
 function App() {
   // const [user, setUser] = useState(null);
@@ -44,6 +45,7 @@ function App() {
       <Routes>
         <Route path='/' element= {<Homepage/>}/>
         <Route path='shop' element= {<ShopPage/>}/>
+        <Route path='checkout' element= {<Checkout/>}/>
         <Route path='signin' element={currentUser ?(<Navigate replace to= "/" />) :  (<SigninSignup/>)}/>
       </Routes>
     </div>

@@ -1,13 +1,19 @@
-import React from 'react'
+import React,{ useState } from 'react'
 import '../styles/header.styles.scss';
 import {ReactComponent as Logo} from '../assets/crown.svg';
 import {Link, NavLink} from 'react-router-dom';
 import { auth } from '../firebase/firebase.utils';
-import { connect, useSelector } from 'react-redux'; 
+import { connect, useSelector, useDispatch } from 'react-redux'; 
+import { toggle_hidden } from '../store/actions/action';
 import CartIcon from './cart-icon';
+import CartDropdown from './cart-dropdown';
 const Header = () => {
-  //console.log( currentUser ? currentUser.displayName : '')
-  const currentUser = useSelector((state) => state.user.currentUser);
+  //console.log( currentUser ? currentUser.displayName : '') useSelector((state) => state.user.currentUser);
+  const currentUser = useSelector(({user: {currentUser}}) => currentUser);
+  const toggleHidden = useSelector(({cart: {hidden}}) => hidden);
+  const dispatch = useDispatch();
+  // const [toggleHidden,setToggleHidden] = useState(false);
+  // console.log(toggleHidden);
   return (
     <div className='header'>
         <div className='logo-container'>
@@ -23,8 +29,15 @@ const Header = () => {
               currentUser ? <div className='option' onClick={()=> auth.signOut()}>SIGN OUT</div> :
                 <NavLink className='option' to='signin'>SIGN IN</NavLink>
             }
-            <CartIcon/>
+            <div onClick={()=> dispatch(toggle_hidden())}>
+              <CartIcon/>
+            </div>
         </div>
+        
+        {
+          toggleHidden && (<CartDropdown/>)
+        }
+        
     </div>
   )
 }
