@@ -1,12 +1,12 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
-import { userReducer } from "./reducers/userReducer";
-import { cartReducer } from "./reducers/cartReducer";
+import { applyMiddleware, createStore } from "redux";
 import logger from "redux-logger";
+import {persistStore} from 'redux-persist';
+import rootReducer from "./rootReducer";
 
 const  middlewares = [logger];
-const rootReducer = combineReducers({
-    user: userReducer,
-    cart: cartReducer
-})
 
 export const store = createStore(rootReducer, applyMiddleware(...middlewares));
+
+export const persistor = persistStore(store); //persisted version of store
+
+ 
