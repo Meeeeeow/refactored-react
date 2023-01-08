@@ -10,6 +10,7 @@ import { create_user } from './store/actions/action';
 import {auth, createUserProfile} from './firebase/firebase.utils'
 import { useEffect } from 'react';
 import Checkout from './components/checkout';
+import CategoryPage from './components/categoryPage';
 
 function App() {
   // const [user, setUser] = useState(null);
@@ -45,6 +46,7 @@ function App() {
       <Routes>
         <Route path='/' element= {<Homepage/>}/>
         <Route path='shop' element= {<ShopPage/>}/>
+        <Route path='shop/:categoryId' element ={<CategoryPage/>}/>
         <Route path='checkout' element= {<Checkout/>}/>
         <Route path='signin' element={currentUser ?(<Navigate replace to= "/" />) :  (<SigninSignup/>)}/>
       </Routes>

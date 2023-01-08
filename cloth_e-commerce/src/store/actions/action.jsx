@@ -35,3 +35,9 @@ export const remove_item_arrows = (item) =>{
         payload: item
     }
 }
+
+export const clear_cart_checkout = ()=>{
+    return {
+        type: ACTION_TYPES.CLEAR_CART_CHECKOUT
+    }
+}
