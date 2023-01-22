@@ -1,0 +1,16 @@
+.single-task{
+    border:1px solid rgb(32, 166, 150);
+    padding: 10px;
+    margin: 10px 0;
+    cursor: pointer;
+    background-color: white;
+    
+    &.dragging{
+        background-color:darkseagreen;
+        color:white;
+    }
+    &:hover{
+        background-color:grey;
+        color:white;
+    }
+}

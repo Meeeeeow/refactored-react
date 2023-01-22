@@ -1,8 +1,24 @@
 import React from 'react'
+import '../styles/singleTask.styles.scss';
 
-const SingleTask = ({task}) => {
+import { Draggable } from 'react-beautiful-dnd'
+
+const SingleTask = ({task, index}) => {
   return (
-    <div>{task.name}</div>
+    <Draggable draggableId={task.id.toString()} index={index}>
+      {(provided, snapshot)=>(
+          <div 
+          className={`single-task ${snapshot.isDragging ? 'dragging' : ''}`}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref ={provided.innerRef}
+          >
+            {task.name}
+          </div>
+      )}
+        
+    </Draggable>
+    
   )
 }
 

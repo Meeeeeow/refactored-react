@@ -1,7 +1,7 @@
 import * as ACTION_TYPES from '../actions/action_types';
 
 const initialState = {
-    allTasks:[],
+    allTasks:{},
     columns:{
         'column-1':{
             id:'column-1',
@@ -28,15 +28,35 @@ export const taskReducer = (state = initialState, action) =>{
         case ACTION_TYPES.ADD_TASK:
             return{
                 ...state,
-                allTasks:[...state.allTasks, action.payload],
+                allTasks:{
+                    ...state.allTasks, 
+                    [action.payload.id.toString()]: action.payload
+                },
                 columns:{
                     ...state.columns,
                     'column-1':{
                         ...state.columns['column-1'],
                         taskIds:[...state.columns['column-1'].taskIds,Number(action.payload.id)]
                     }
-                }
+                } 
                 
+            }
+        case ACTION_TYPES.ORDER_SAME_COL:
+            return{
+                ...state,
+                columns:{
+                    ...state.columns,
+                    [action.payload.id]: action.payload
+                }
+            }
+        case ACTION_TYPES.ORDER_ANOTHER_COL:
+            return{
+                ...state,
+                columns:{
+                    ...state.columns,
+                    [action.payload.startCol.id]: action.payload.startCol,
+                    [action.payload.endCol.id]: action.payload.endCol
+                }
             }
         default:
             return state;
