@@ -1,9 +1,10 @@
 export  type videoInterface = {
     etag: string
-    id?:{
+    id:{
         kind: string,
         videoId: string,
-        channelId: string
+        channelId: string,
+        playlistId: string,
     },
     kind: string,
     snippet?:{

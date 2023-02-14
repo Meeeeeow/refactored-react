@@ -8,7 +8,10 @@ type videosProps ={
 }
 
 const Videos = ({videos}: videosProps) => {
-  console.log(videos)
+  // console.log(videos)
+  const videosWithoutPlayList = videos.filter((video)=> !video.id.playlistId);
+  console.log(videosWithoutPlayList);
+
   return (
     <Stack 
       direction='row' 
@@ -17,13 +20,13 @@ const Videos = ({videos}: videosProps) => {
       gap={2}
     >
       {
-        videos.map((item,index)=>(
+        videosWithoutPlayList.map((item,index)=>(
           <Box key={index}>
             {
-              item.id?.videoId && <VideoCard videoSingle={item}/>
+              item.id.videoId && <VideoCard videoSingle={item}/>
             }
             {
-              item.id?.channelId && <ChannelCard channelSingle={item}/>
+              item.id.channelId && <ChannelCard channelSingle={item}/>
             }
           </Box>
         ))

@@ -14,7 +14,7 @@ const VideoCard = ({videoSingle: {id, snippet}}: videoCardProps) => {
   return (
     <Card
       sx={{
-        width:{ md: '310px', xs: '100%'},
+        width:{ md: '310px', xs: '100%', sm: '358px'},
         boxShadow: 'none',
         borderRadius: 0
       }}
@@ -22,18 +22,17 @@ const VideoCard = ({videoSingle: {id, snippet}}: videoCardProps) => {
       <Link to={ id?.videoId ? `/video/${id?.videoId}` : demoVideoUrl}>
         <CardMedia
           component="img"
-          image={snippet?.thumbnails?.high?.url}
+          image={snippet?.thumbnails?.high?.url || demoThumbnailUrl}
           alt={snippet?.title}
           sx={{
-            width: 360,
+            width: {xs:'100%', sm: '358px'},
             height: 180,
-        
           }}
         />
         <CardContent
           sx={{
             backgroundColor:'#1e1e1e',
-            height: 110
+            height: '106px'
           }}
         >
           <Link to={ id?.videoId ? `/video/${id?.videoId}` : demoVideoUrl}>
@@ -44,7 +43,7 @@ const VideoCard = ({videoSingle: {id, snippet}}: videoCardProps) => {
                 color: "#fff"
               }}
             >
-              {snippet?.title ? snippet?.title.slice(0,60) : demoVideoTitle}
+              {snippet?.title ? snippet?.title.slice(0,60) : demoVideoTitle.slice(0,60)}
             </Typography>
           </Link>
           <Link to={ id?.channelId ? `/channel/${id?.channelId}` : demoChannelUrl}>

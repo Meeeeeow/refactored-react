@@ -13,10 +13,16 @@ const ChannelCard = ({channelSingle: {id, snippet}}: channelCardProps) => {
     <Box
       sx={{
         borderRadius: '20px',
-        boxShadow: 'none'
+        boxShadow: 'none',
+        display:'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width:{xs: '356px', md: '310px'},
+        height:'326px',
+        margin:'auto'
       }}
     >
-      <Link to={`/channel/${id?.channelId}` || demoChannelUrl}>
+      <Link to={`/channel/${id?.channelId}`}>
         <CardContent
           sx={{
             display:'flex',
