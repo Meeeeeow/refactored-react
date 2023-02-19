@@ -11,8 +11,8 @@ function App() {
         <Navbar/>
         <Routes>
           <Route path='/' element={ <Feed/> }/>
-          <Route path='/videos/:videoId' element={ <VideoDetails/> }/>
-          <Route path='/channels/:channelId' element={ <ChannelDetails/> }/>
+          <Route path='/video/:videoId' element={ <VideoDetails/> }/>
+          <Route path='/channel/:channelId' element={ <ChannelDetails/> }/>
           <Route path='/search/:searchTerm' element={ <Search/> }/>
         </Routes>
       </Box>

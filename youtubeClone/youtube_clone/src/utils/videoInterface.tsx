@@ -32,6 +32,11 @@ export  type videoInterface = {
             }
         },
         title: string
+    },
+    statistics?:{
+        subscriberCount: string,
+        likeCount: string,
+        viewCount: string,
     }
     
    

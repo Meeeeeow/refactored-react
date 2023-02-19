@@ -9,8 +9,11 @@ const Feed = () => {
 
   console.log(selectedCategory);
   useEffect(()=>{
-    fetchFromAPI(`search?q=${selectedCategory}&part=snippet&regionCode=US&maxResults=50`).then((data)=> setVideos(data.items));
-    
+    const videoFetch = async() =>{
+     const data = await fetchFromAPI(`search?q=${selectedCategory}&part=snippet&maxResults=50`);
+     setVideos(data.items)
+    }
+    videoFetch();
   },[selectedCategory])
   return (
    <Stack

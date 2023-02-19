@@ -6,9 +6,10 @@ import { demoChannelUrl, demoProfilePicture } from '../utils/constants';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 type channelCardProps ={
-    channelSingle: videoInterface
+    channelSingle: videoInterface,
+    marginTop?: string
 }
-const ChannelCard = ({channelSingle: {id, snippet}}: channelCardProps) => {
+const ChannelCard = ({channelSingle,marginTop}: channelCardProps) => {
   return (
     <Box
       sx={{
@@ -19,10 +20,11 @@ const ChannelCard = ({channelSingle: {id, snippet}}: channelCardProps) => {
         alignItems: 'center',
         width:{xs: '356px', md: '310px'},
         height:'326px',
-        margin:'auto'
+        margin:'auto',
+        marginTop
       }}
     >
-      <Link to={`/channel/${id?.channelId}`}>
+      <Link to={`/channel/${channelSingle?.id?.channelId}`}>
         <CardContent
           sx={{
             display:'flex',
@@ -34,8 +36,8 @@ const ChannelCard = ({channelSingle: {id, snippet}}: channelCardProps) => {
         >
           <CardMedia
             component="img"
-            image={snippet?.thumbnails?.high?.url || demoProfilePicture}
-            alt={snippet?.channelTitle}
+            image={channelSingle?.snippet?.thumbnails?.high?.url || demoProfilePicture}
+            alt={channelSingle?.snippet?.channelTitle}
             sx={{
               borderRadius: '50%',
               height: '180px',
@@ -47,16 +49,30 @@ const ChannelCard = ({channelSingle: {id, snippet}}: channelCardProps) => {
           <Typography
             variant='h6'
           >
-            {snippet?.channelTitle}
+            {channelSingle?.snippet?.title}
             <CheckCircleIcon
                  
                 sx={{
-                  fontSize: 14,
+                  fontSize: '14px',
                   color: 'gray',
                   ml: '5px'
                 }}
               />
           </Typography>
+          {
+            channelSingle?.statistics?.subscriberCount &&(
+              <Typography
+                sx={{
+                  fontSize: '15px',
+                  fontWeight: 500,
+                  color: 'gray'
+                }}
+              >
+                {parseInt(channelSingle?.statistics.subscriberCount).toLocaleString('en-US')} Subscribers
+                
+              </Typography>
+            )
+          }
         </CardContent>
       </Link>
     </Box>

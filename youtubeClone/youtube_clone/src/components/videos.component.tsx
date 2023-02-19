@@ -4,17 +4,20 @@ import { Stack, Box } from '@mui/material';
 import { VideoCard, ChannelCard} from './';
 
 type videosProps ={
-  videos: videoInterface[]
+  videos: videoInterface[],
+  direction?: string,
 }
 
-const Videos = ({videos}: videosProps) => {
+const Videos = ({videos,direction}: videosProps) => {
   // console.log(videos)
+ 
+
   const videosWithoutPlayList = videos.filter((video)=> !video.id.playlistId);
   console.log(videosWithoutPlayList);
 
   return (
     <Stack 
-      direction='row' 
+      direction={direction ? 'column' : 'row'}
       flexWrap='wrap'
       justifyContent='start'
       gap={2}

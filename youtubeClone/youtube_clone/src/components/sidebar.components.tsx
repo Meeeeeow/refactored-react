@@ -14,8 +14,9 @@ const SideBar = ({selectedCategory, setSelectedCategory}: sideBarProps) => {
         sx={{
             flexDirection:{md: 'column'},
             height:{sx: 'auto', md: '95%'},
-            overflowY:'auto'
-
+            overflowY:'auto',
+            mt: '60px',
+            zIndex: '-2'
         }}
         
     >
