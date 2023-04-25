@@ -1,0 +1,42 @@
+*{
+  box-sizing: border-box;
+  margin:0;
+  padding:0;
+}
+.App {
+  display: flex;
+  justify-content: center;
+}
+.form-sample form{
+  display:flex;
+  flex-direction: column;
+  margin-top: 100px;
+}
+.form-sample form label{
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 1.1rem;
+}
+input[type="text"],input[type="email"]
+{
+  display:block;
+  font-size:1rem;
+  color:#555;
+  background-color: #fff;
+  border:1px solid #c4bebe;
+  width:300px;
+  padding:5px 0;
+  margin-bottom: 25px;
+  border-radius: 4px;
+
+}
+.form-sample form button{
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding:12px 6px;
+  background-color: #4CAF50;
+  color:#fff;
+  cursor: pointer;
+  box-shadow: 1px 2px 4px #5f5353;
+  border-radius: 4px;
+}
