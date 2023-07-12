@@ -11,6 +11,7 @@ import {auth, createUserProfile} from './firebase/firebase.utils'
 import { useEffect } from 'react';
 import Checkout from './components/checkout';
 import CategoryPage from './components/categoryPage';
+import Contact from './components/contact';
 
 function App() {
   // const [user, setUser] = useState(null);
@@ -48,6 +49,7 @@ function App() {
         <Route path='shop' element= {<ShopPage/>}/>
         <Route path='shop/:categoryId' element ={<CategoryPage/>}/>
         <Route path='checkout' element= {<Checkout/>}/>
+        <Route path='contact' element={<Contact/>}/>
         <Route path='signin' element={currentUser ?(<Navigate replace to= "/" />) :  (<SigninSignup/>)}/>
       </Routes>
     </div>

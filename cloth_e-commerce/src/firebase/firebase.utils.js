@@ -2,17 +2,18 @@ import firebase  from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 
-const config = {
-        apiKey: "AIzaSyBPKNmQYpAZTBRTzd3qQCAOQd8Er8jk4ro",
-        authDomain: "clothing-db-7e9cf.firebaseapp.com",
-        projectId: "clothing-db-7e9cf",
-        storageBucket: "clothing-db-7e9cf.appspot.com",
-        messagingSenderId: "837332213269",
-        appId: "1:837332213269:web:152de4a01efacae7d0b81c", 
-        measurementId: "G-WQ4HR049CZ"
+
+
+      const config = {
+        apiKey: "AIzaSyCmTt79hvFhjSEqKaHCBKKOEORmL4I7-ZQ",    
+        authDomain: "clothing-app-db-b4b1a.firebaseapp.com",
+        projectId: "clothing-app-db-b4b1a",
+        storageBucket: "clothing-app-db-b4b1a.appspot.com",
+        messagingSenderId: "472888065997",   
+        appId: "1:472888065997:web:64c1bd142bcfb5dfb5ce84",  
+        measurementId: "G-S1H8J921BR" 
       };
-
-
+      
 firebase.initializeApp(config);   
 
 export const createUserProfile = async (userAuth, addtionalData)=>{

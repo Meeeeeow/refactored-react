@@ -5,7 +5,7 @@ import CheckoutItem from './checkoutItem';
 import StripeButton from './stripe-button';
 const Checkout = () => {
   const cartItems = useSelector(({cart : {cartItems}})=> cartItems);
-
+  const currentUser = useSelector(({user : {currentUser}}) => currentUser);
   const total = cartItems.reduce((total,item)=> total + (item.quantity * item.price),0);
   console.log(total);
   return (
@@ -39,7 +39,12 @@ const Checkout = () => {
         <br/>
         4242 4242 4242 4242 - Exp Date: Any future date(10/28) - CVC: Any 3 digits(123)
       </div>
-      <StripeButton price={total}/>
+      {
+        currentUser ? ( <StripeButton price={total}/>) 
+        :(<div className='test-warning'>
+          *You need to signin to continue to checkout! Please signin first.*
+        </div>)
+      }
     </div>
   )
 }
