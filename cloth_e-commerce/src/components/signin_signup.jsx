@@ -1,14 +1,15 @@
 import React from 'react'
-import '../styles/sign-in-sign-up.styles.scss';
+// import '../styles/sign-in-sign-up.styles.scss';
 import Signin from './signn'
 import Signup from './signup'
+import { AuthenticationStyle } from '../styles styledComponent/authentication.styles';
 
 const SigninSignup = () => {
   return (
-    <div className='signin-signup'>
+    <AuthenticationStyle>
         <Signin/>
         <Signup/>
-    </div>
+    </AuthenticationStyle>
   )
 }
 

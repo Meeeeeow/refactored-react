@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import '../styles/signup.styles.scss';
+// import '../styles/signup.styles.scss';
 import { auth, createUserProfile } from '../firebase/firebase.utils';
 import CustomButton from './customButton';
 import FormInput from './formInput';
+import { SignUpStyles, TitleStyles } from '../styles styledComponent/Signup.styles';
 const Signup = () => {
   const [newUser, setNewUser] = useState({
     displayName: '',
@@ -99,8 +100,8 @@ const Signup = () => {
   }
   return (
     
-    <div className='sign-up'>
-        <h1 className='title'>I donot have an account</h1>
+    <SignUpStyles>
+        <TitleStyles>I donot have an account</TitleStyles>
         <span>Sign up with email and password</span>
         <form onSubmit={handleSubmit}>
             <FormInput
@@ -155,7 +156,7 @@ const Signup = () => {
               ) : <CustomButton type="button" style={{cursor: 'not-allowed', backgroundColor: 'grey', width:'100%'} }>Waiting for credentials...</CustomButton>
             }
         </form>
-    </div>
+    </SignUpStyles>
   )
 }
 

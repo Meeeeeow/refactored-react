@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react'
 import { useSelector } from 'react-redux';
 import emailjs from '@emailjs/browser';
-import '../styles/contact.styles.scss';
+// import '../styles/contact.styles.scss';
 import CustomButton from './customButton';
+import { ContactStyle, InputStyle, TextAreaStyle } from '../styles styledComponent/contact.styles';
 const Contact = () => {
   const [name,setName] = useState('');
   const [email,setEmail] = useState('');
@@ -29,11 +30,11 @@ const Contact = () => {
 
   return (
     
-    <div className='contact'>
+    <ContactStyle>
         <h1 className='title'>Have some Questions?</h1>
         <form ref={form} onSubmit={sendEmail}>
           <p><label htmlFor='displayName'>Name</label></p>
-          <input
+          <InputStyle
              type="text" 
              name="displayName"
              value={name}
@@ -41,7 +42,7 @@ const Contact = () => {
              required 
           />
           <p><label htmlFor='email'>Email</label></p>
-          <input
+          <InputStyle
              type="email" 
              name="email"
              value={email}
@@ -49,7 +50,7 @@ const Contact = () => {
              required 
           />
           <p><label htmlFor='message'>Enter your message here</label></p>
-            <textarea
+            <TextAreaStyle
               type='text'
               name='message'
               value={message}
@@ -59,9 +60,9 @@ const Contact = () => {
               cols='50'
           />
 
-          <CustomButton type="submit"> Send Message</CustomButton>
+          <CustomButton type="submit" style={{width:'100%'}}> Send Message</CustomButton>
         </form>
-    </div>
+    </ContactStyle>
   )
 }
 

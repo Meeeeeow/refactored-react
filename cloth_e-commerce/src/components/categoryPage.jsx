@@ -2,7 +2,7 @@ import React from 'react'
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import SingleItem from './singleItem';
-import '../styles/categoryPage.styles.scss';
+import { CategoryItemStyle, CollectionsCategoryStyle, TitleStyle } from '../styles styledComponent/categoryPage.styles';
 const CategoryPage = () => {
   const params = useParams();
   console.log(params);
@@ -12,14 +12,14 @@ const CategoryPage = () => {
   
   console.log(categoryId);
   return (
-    <div className = 'collection-category'>
-      <h1 className='title'>{categoryId.toUpperCase()}</h1>
-      <div className='category-items'>
+    <CollectionsCategoryStyle>
+      <TitleStyle>{categoryId.toUpperCase()}</TitleStyle>
+      <CategoryItemStyle>
         {
           collections[0].items.map(item => <SingleItem key={item.id} item={item}/>)
         }
-      </div>
-    </div>
+      </CategoryItemStyle>
+    </CollectionsCategoryStyle>
   )
 }
  
