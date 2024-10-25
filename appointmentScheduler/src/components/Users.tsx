@@ -27,7 +27,7 @@ const Users = () => {
   }, []);
   console.log(users);
   const filteredUsers = users.filter((user) =>
-    user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    user.username.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
-import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { collection, query, or, where, onSnapshot } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
 
 interface Notification {
@@ -16,33 +16,62 @@ const Notification = () => {
 
   useEffect(() => {
     if (currentUser) {
+      // Fetch notifications where the user is either the sender or recipient
       const q = query(
         collection(db, "appointments"),
-        where("recipientId", "==", currentUser.uid)
+        or(
+          where("recipientId", "==", currentUser.uid),
+          where("senderId", "==", currentUser.uid)
+        )
       );
 
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const newNotifications = querySnapshot.docs.map((doc) => {
-          const data = doc.data();
-          let message = "";
+        const newNotifications = querySnapshot.docs
+          .map((doc) => {
+            const data = doc.data();
+            let message = "";
 
-          if (data.status === "pending") {
-            message = `You have a new appointment request: "${data.title}"`;
-          } else if (data.status === "accepted") {
-            message = `Your appointment "${data.title}" was accepted.`;
-          } else if (data.status === "declined") {
-            message = `Your appointment "${data.title}" was declined.`;
-          } else if (data.status === "canceled") {
-            message = `Your appointment "${data.title}" was canceled.`;
-          }
+            // Determine if current user is the sender or the recipient
+            const isSender = data.senderId === currentUser.uid;
+            const isRecipient = data.recipientId === currentUser.uid;
 
-          return {
-            id: doc.id,
-            message,
-            date: data.date,
-            status: data.status,
-          };
-        });
+            if (data.status === "pending") {
+              if (isSender) {
+                message = `Your appointment request "${data.title}" is pending.`;
+              } else if (isRecipient) {
+                message = `You have a new appointment invitation: "${data.title}".`;
+              }
+            } else if (data.status === "accepted") {
+              if (isSender) {
+                message = `Your appointment request "${data.title}" was accepted.`;
+              } else if (isRecipient) {
+                message = `You have accepted the appointment "${data.title}".`;
+              }
+            } else if (data.status === "declined") {
+              if (isSender) {
+                message = `Your appointment "${data.title}" was declined by the recipient.`;
+              } else if (isRecipient) {
+                message = `You have declined the appointment "${data.title}".`;
+              }
+            } else if (data.status === "canceled") {
+              if (isSender) {
+                message = `You canceled the appointment "${data.title}".`;
+              } else if (isRecipient) {
+                message = `The appointment "${data.title}" was canceled by the sender.`;
+              }
+            }
+
+            return {
+              id: doc.id,
+              message,
+              date: data.date,
+              status: data.status,
+            };
+          })
+          .sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+          );
+
         setNotifications(newNotifications);
       });
 
@@ -60,7 +89,9 @@ const Notification = () => {
             className="p-4 border rounded shadow-sm mb-4 bg-white hover:bg-gray-100 transition"
           >
             <p>{notification.message}</p>
-            <p className="text-sm text-gray-500">Date: {notification.date}</p>
+            <p className="text-sm text-gray-500">
+              Appointment Date: {notification.date}
+            </p>
           </div>
         ))
       ) : (
